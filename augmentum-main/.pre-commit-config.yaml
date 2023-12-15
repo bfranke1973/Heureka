@@ -1,0 +1,71 @@
+---
+# Run the project code formatters.
+#
+# Usage
+# -----
+#
+# Run the pre-commit hooks on all files using:
+#
+#     $ pre-commit run --all-files
+#
+# Install the pre-commit hook using:
+#
+#     $ pre-commit install
+#
+exclude: ^(driver/augmentum/benchmark_polybench_verification.py|driver/augmentum/benchmark_SNU_make_conf.py|driver/augmentum/benchmark_SNU_verification.py|benchmarks/)
+repos:
+    - repo: https://github.com/pre-commit/pre-commit-hooks
+      rev: v4.5.0
+      hooks:
+          - id: check-added-large-files
+            args: [--maxkb=10000]
+          - id: check-case-conflict
+          - id: check-docstring-first
+          - id: check-executables-have-shebangs
+          - id: check-json
+          - id: check-merge-conflict
+          - id: check-symlinks
+          - id: end-of-file-fixer
+          - id: pretty-format-json
+            args: [--autofix, --indent=2, --no-sort-keys]
+          - id: requirements-txt-fixer
+          - id: trailing-whitespace
+    - repo: https://github.com/jumanjihouse/pre-commit-hook-yamlfmt
+      rev: 0.2.3
+      hooks:
+          - id: yamlfmt
+    - repo: https://github.com/timothycrosley/isort
+      rev: 5.13.2
+      hooks:
+          - id: isort
+    - repo: https://github.com/psf/black
+      rev: 23.12.0
+      hooks:
+          - id: black
+            language_version: python3
+    - repo: https://github.com/PyCQA/flake8
+      rev: 6.1.0
+      hooks:
+          - id: flake8
+    - repo: https://github.com/pocc/pre-commit-hooks
+      rev: v1.1.1
+      hooks:
+          - id: clang-format
+            args: [-i]
+    - repo: https://github.com/nametake/pre-commit-prototool
+      rev: v0.1.0
+      hooks:
+          - id: prototool-lint
+          - id: prototool-format-fix
+    - repo: https://github.com/FelixSeptem/pre-commit-golang
+      rev: 12f5442f51377b10b26651ad745206bbe1500ad6
+      hooks:
+          - id: bazel-buildifier
+    - repo: https://github.com/petalmd/dockerfile-pre-commit
+      rev: v1.0
+      hooks:
+          - id: dockerlint
+    - repo: https://github.com/BlankSpruce/gersemi
+      rev: 0.9.3
+      hooks:
+          - id: gersemi

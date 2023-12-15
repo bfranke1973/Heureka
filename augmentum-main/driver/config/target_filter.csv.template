@@ -1,0 +1,8 @@
+type;module;function;path;comment
+BLOCK_REX;;;".+T-f32";"Block all paths that have a float type"
+BLOCK_REX;"^llvm\/lib\/Transforms\/Vectorize.+";;;"Block all functions and paths from the Transforms/Vectorize folder"
+BLOCK;llvm/lib/Analysis/LoopInfo.cpp;_ZNK4llvm12DenseMapBaseINS_8DenseMapIPNS_10BasicBlockESt10unique_ptrINS_15DomTreeNodeBaseIS2_EESt14default_deleteIS6_EENS_12DenseMapInfoIS3_EENS_6detail12DenseMapPairIS3_S9_EEEES3_S9_SB_SE_E13getNumBucketsEv;Z.L.L.T-i8;"Block this specific target"
+ALLOW;llvm/lib/Transforms/Utils/LoopUtils.cpp;_ZN4llvm13isa_impl_wrapINS_11InstructionEPKNS_4UserES4_E4doitERKS4_;Z.T-i1;"Allow this specific channel"
+ALLOW;llvm/lib/Analysis/CallGraphSCCPass.cpp;;;"Allow all functions and paths from this module"
+ALLOW;;"_ZN4llvm23SmallVectorTemplateBaseIjLb1EEC2Em";;"Allow all paths for this function from all modules"
+ALLOW_REX;llvm/lib/Transforms/InstCombine/InstCombineLoadStoreAlloca.cpp;_ZNK4llvm10DataLayout17getTypeSizeInBitsEPNS_4TypeE;"Z\.S0(\.L|\.R)*\.T-i(32|16|8)";"Match specific paths from given function"

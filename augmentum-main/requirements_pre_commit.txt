@@ -1,0 +1,4 @@
+clang-format==15.0.7
+flake8==6.1.0
+isort==5.13.2
+pre-commit>=2.12.1

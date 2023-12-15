@@ -1,0 +1,6 @@
+---
+name: augmentum
+dependencies:
+    - python=3.10
+    - pip
+    - cmake=3.22.1

@@ -1,0 +1,288 @@
+{
+    "general" : {
+        "copy_sysprog" : false
+    },
+
+    "tools" : {
+        "compiler_bin"  : "/path/to/llvm/install/bin",
+        "cxx"           : "/path/to/llvm/install/bin/clang++",
+        "llvm-size"     : "/path/to/llvm/install/bin/llvm-size",
+
+        "augmentum_pass"    : "/path/to/augmentum/build/extensions/augmentum_llvmpass/libaugmentum_llvmpass.so",
+        "augmentum_library" : "/path/to/augmentum/build/extensions/augmentum",
+        "augmentum_headers" : "/path/to/augmentum/extensions/augmentum",
+
+        "stl_wrapper_lib" : "/path/to/augmentum/build/tools/stlwrapper/libstlwrapper.so",
+        "fpcmp" : "/path/to/augmentum/build/tools/fpcmp/fpcmp"
+    },
+
+    "sys_prog" : {
+        "active" : "llvm",
+
+        "available" : {
+
+            "llvm" : {
+                "type": "llvm",
+                "build_dir": "/path/to/llvm/llvm_sysprog/",
+                "src_dir" : "/path/to/llvm/llvm-project",
+
+                "instrument_module": "opt",
+
+                "initial_full_build": false,
+                "available_functions_and_types": {
+                    "function_stats" : "/path/to/auto2_dist_out/config/function_stats_relative.csv",
+                    "named_struct_stats" : "/path/to/auto2_dist_out/config/named_struct_stats_relative.csv"
+                },
+
+                "compiler_flags": "",
+                "linker_flags": ""
+            }
+        }
+    },
+
+    "benchmark" : {
+        "active" : ["POLYBENCH"],
+
+        "available" : {
+
+            "POLYBENCH" : {
+                "benchmark_name": "POLYBENCH",
+                "benchmark_dir": "/path/to/augmentum/benchmarks/polybench-c-4.2.1-beta/",
+
+                "benchmarks" : [
+                    "medley/floyd-warshall",
+                    "medley/deriche",
+                    "medley/nussinov",
+                    "linear-algebra/solvers/ludcmp",
+                    "linear-algebra/solvers/trisolv",
+                    "linear-algebra/solvers/durbin",
+                    "linear-algebra/solvers/lu",
+                    "linear-algebra/solvers/cholesky",
+                    "linear-algebra/solvers/gramschmidt",
+                    "linear-algebra/blas/gesummv",
+                    "linear-algebra/blas/trmm",
+                    "linear-algebra/blas/gemm",
+                    "linear-algebra/blas/syr2k",
+                    "linear-algebra/blas/syrk",
+                    "linear-algebra/blas/symm",
+                    "linear-algebra/blas/gemver",
+                    "linear-algebra/kernels/atax",
+                    "linear-algebra/kernels/doitgen",
+                    "linear-algebra/kernels/mvt",
+                    "linear-algebra/kernels/bicg",
+                    "linear-algebra/kernels/2mm",
+                    "linear-algebra/kernels/3mm",
+                    "stencils/jacobi-1d",
+                    "stencils/jacobi-2d",
+                    "stencils/fdtd-2d",
+                    "stencils/adi",
+                    "stencils/heat-3d",
+                    "stencils/seidel-2d",
+                    "datamining/covariance",
+                    "datamining/correlation"
+                ],
+
+                "UNUSED_default_classes" : [ "MINI", "SMALL", "MEDIUM", "LARGE", "EXTRALARGE" ],
+                "default_classes" : [ "SMALL" ],
+
+                "compile_timeout_secs": 60,
+                "run_timeout_secs": 60,
+
+                "compiler_flags": "-Oz -fno-crash-diagnostics",
+                "linker_flags": "",
+
+                "benchmark_config" : { }
+            },
+
+            "SNU_NPB_DIRECT" : {
+                "benchmark_name": "SNU_NPB_DIRECT",
+                "benchmark_dir": "/path/to/augmentum/benchmarks/SNU_NPB/",
+
+                "benchmarks" : [ "FT", "MG", "CG", "LU", "BT", "IS", "EP", "SP" ],
+
+                "UNUSED_default_classes" : [ "S", "W", "A", "B", "C", "D" ],
+                "default_classes" : [ "S" ],
+
+                "compile_timeout_secs": 60,
+                "run_timeout_secs": 60,
+
+                "compiler_flags": "-Oz -fno-crash-diagnostics",
+                "linker_flags": "",
+
+                "benchmark_config" : { }
+            },
+
+            "SNU_NPB_BC" : {
+                "benchmark_name": "SNU_NPB_BC",
+                "benchmark_dir": "/path/to/augmentum/benchmarks/SNU_NPB/prebuild_bc/bc_out",
+
+                "benchmarks" : [ "FT", "MG", "CG", "LU", "BT", "IS", "EP", "SP" ],
+
+                "UNUSED_default_classes" : [ "S", "W", "A", "B", "C", "D" ],
+                "default_classes" : [ "S" ],
+
+                "compile_timeout_secs": 60,
+                "run_timeout_secs": 60,
+
+                "compiler_flags": "-Oz",
+                "linker_flags": "",
+
+                "benchmark_config" : { }
+            },
+
+            "SNU_NPB" : {
+                "benchmark_name": "SNU_NPB",
+                "benchmark_dir": "/path/to/augmentum/benchmarks/SNU_NPB/NPB3.3-SER-C",
+
+                "benchmarks" : [ "FT", "MG", "CG", "LU", "BT", "IS", "EP", "SP" ],
+
+                "UNUSED_default_classes" : [ "S", "W", "A", "B", "C", "D" ],
+                "default_classes" : [ "S" ],
+
+                "compile_timeout_secs": 60,
+                "run_timeout_secs": 60,
+
+                "compiler_flags": "-Oz -fno-crash-diagnostics",
+                "linker_flags": "-Oz",
+
+                "benchmark_config" : { }
+            },
+
+            "LLVM_SUITE" : {
+                "benchmark_name": "LLVM_SUITE",
+                "benchmark_dir": "/path/to/augmentum/benchmarks/llvm-test",
+
+                "compiler_flags" : "-Oz -fno-crash-diagnostics -DSMALL_PROBLEM_SIZE",
+                "linker_flags" : "",
+
+                "compile_timeout_secs": 60,
+                "run_timeout_secs": 60,
+
+                "suites" : {
+                    "Adobe-C++" : {
+                        "generic" : {
+                            "compiler_flags" : "-w -Werror=date-time",
+                            "linker_flags" : "-lm",
+                            "fpcmp_flags" : "-a 0.01"
+                        },
+
+                        "benchmarks" : {
+                            "functionobjects" : {
+                                "src" : [
+                                    "functionobjects.cpp"
+                                ]
+                            },
+                            "loop_unroll" : {
+                                "src" : [
+                                    "loop_unroll.cpp"
+                                ]
+                            },
+                            "simple_types_constant_folding" : {
+                                "src" : [
+                                    "simple_types_constant_folding.cpp"
+                                ]
+                            },
+                            "simple_types_loop_invariant" : {
+                                "src" : [
+                                    "simple_types_loop_invariant.cpp"
+                                ]
+                            },
+                            "stepanov_abstraction" : {
+                                "src" : [
+                                    "stepanov_abstraction.cpp"
+                                ]
+                            },
+                            "stepanov_vector" : {
+                                "src" : [
+                                    "stepanov_vector.cpp"
+                                ]
+                            }
+                        }
+                    },
+
+                    "CoyoteBench" : {
+                        "generic" : {
+                            "compiler_flags" : "-w -Werror=date-time",
+                            "linker_flags" : "-lm"
+                        },
+
+                        "benchmarks" : {
+                            "almabench" : {
+                                "src" : [
+                                    "almabench.c"
+                                ]
+                            },
+                            "fftbench" : {
+                                "src" : [
+                                    "fftbench.cpp"
+                                ]
+                            },
+                            "huffbench" : {
+                                "src" : [
+                                    "huffbench.c"
+                                ]
+                            },
+                            "lpbench" : {
+                                "src" : [
+                                    "lpbench.c"
+                                ]
+                            }
+                        }
+                    },
+
+                    "BenchmarkGame" : {
+                        "generic" : {
+                            "compiler_flags" : "-w -Werror=date-time",
+                            "linker_flags" : "-lm"
+                        },
+
+                        "benchmarks" : {
+                            "fannkuch" : {
+                                "src" : [
+                                    "fannkuch.c"
+                                ]
+                            },
+                            "fasta" : {
+                                "src" : [
+                                    "fasta.c"
+                                ],
+                                "hash_output" : true,
+                                "silent_run" : true
+                            },
+                            "n-body" : {
+                                "src" : [
+                                    "n-body.c"
+                                ]
+                            },
+                            "nsieve-bits" : {
+                                "src" : [
+                                    "nsieve-bits.c"
+                                ]
+                            },
+                            "partialsums" : {
+                                "src" : [
+                                    "partialsums.c"
+                                ]
+                            },
+                            "puzzle" : {
+                                "src" : [
+                                    "puzzle.c"
+                                ]
+                            },
+                            "recursive" : {
+                                "src" : [
+                                    "recursive.c"
+                                ]
+                            },
+                            "spectral-norm" : {
+                                "src" : [
+                                    "spectral-norm.c"
+                                ]
+                            }
+                        }
+                    }
+                }
+            }
+         }
+    }
+}

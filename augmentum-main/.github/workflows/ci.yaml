@@ -1,0 +1,69 @@
+---
+name: CI
+
+on:
+    pull_request:
+    push:
+        branches: [main]
+    schedule:
+        - cron: 0 0 * * 0 # weekly
+
+jobs:
+    test:
+        runs-on: ubuntu-20.04
+        steps:
+            - uses: actions/checkout@v3
+
+            - name: Cache LLVM Build
+              uses: actions/cache@v3
+              id: cache-llvm
+              env:
+                  cache-name: cache-llvm-build
+              with:
+                  path: /home/runner/llvm/install
+                  key: ${{ runner.os }}-llvm-build-${{ env.cache-name }}
+                  restore-keys: |
+                      ${{ runner.os }}-llvm-build-
+                      ${{ runner.os }}-
+
+            - name: Set up Python
+              uses: actions/setup-python@v4
+              with:
+                  python-version: '3.10'
+
+            - if: ${{ steps.cache-llvm.outputs.cache-hit != 'true' }}
+              name: Download LLVM Binaries
+              continue-on-error: true
+              # wget download for large file from Google Drive:
+              # https://drive.google.com/file/d/1mKnszCqtphqH7vhynszSlbogAQaHCcmr/view?usp=sharing
+              run: |
+                  FILEID=1mKnszCqtphqH7vhynszSlbogAQaHCcmr
+                  FILENAME=/home/runner/llvm/clang+llvm_RTTI-EH-10.0.1-x86_64-linux-gnu-ubuntu-20.04.tar
+                  COOKIES=/home/runner/llvm/cookies.txt
+                  mkdir -p /home/runner/llvm
+                  wget --load-cookies ${COOKIES} "https://docs.google.com/uc?export=download&confirm=$(wget --quiet --save-cookies ${COOKIES} --keep-session-cookies --no-check-certificate 'https://docs.google.com/uc?export=download&id=${FILEID}' -O- | sed -rn 's/.*confirm=([0-9A-Za-z_]+).*/\1\n/p')&id=${FILEID}" -O ${FILENAME}
+
+                  echo extracting llvm tarball ...
+                  tar -xf ${FILENAME} -C /home/runner/llvm/
+                  mv /home/runner/llvm/clang+llvm_RTTI-EH-10.0.1-x86_64-linux-gnu-ubuntu-20.04 /home/runner/llvm/install
+                  rm -rf ${COOKIES} ${FILENAME}
+
+                  echo llvm downloaded
+                  ls /home/runner/llvm/install
+
+            - if: ${{ steps.cache-llvm.outputs.cache-hit == 'true' }}
+              name: Using Cached LLVM Download
+              continue-on-error: true
+              run: ls /home/runner/llvm/install
+
+            - name: Install CMake dependency
+              run: |
+                  wget --quiet https://github.com/Kitware/CMake/releases/download/v3.20.5/cmake-3.20.5-linux-x86_64.sh -O /tmp/cmake.sh
+                  sudo bash /tmp/cmake.sh --prefix=/usr/local --exclude-subdir --skip-license
+                  rm /tmp/cmake.sh
+
+            - name: Build and install
+              run: make all BUILD_DIR=/home/runner/wmc-build LLVM_DIR=/home/runner/llvm/install/lib/cmake/llvm/
+
+            - name: Run the test suite
+              run: make test

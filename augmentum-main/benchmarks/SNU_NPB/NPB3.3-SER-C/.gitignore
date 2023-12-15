@@ -1,0 +1,6 @@
+*.o
+bin
+result
+npbparams.h
+
+config/make.def

@@ -1,0 +1,4 @@
+# Note that test requirements are in tests/requirements.txt, and optional
+# development dependencies are in requirements-dev.txt.
+numpy==1.24.2
+sqlalchemy==1.4.23
